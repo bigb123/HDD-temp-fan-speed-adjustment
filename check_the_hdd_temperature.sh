@@ -15,9 +15,10 @@ disk_output_value=$(hddtemp -n $HDD_PATH 2>&1)
 
 case $disk_output_value in
 
-    # *"drive is sleeping")
-    #     echo "Drive is stopped"
-    # ;;
+    # If the drive is stopped - just stop the fan as well
+    *"drive is sleeping")
+        echo $FAN_OFF > $FAN_PATH
+    ;;
     
     # When the disk temperature is low - just keep the fan off
     [0-4][0-9])
