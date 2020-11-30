@@ -9,7 +9,7 @@ FAN_FULL=0
 
 HDD_PATH="/dev/sdb"
 
-disk_output_value=$(hddtemp -n $HDD_PATH 2>&1)
+disk_output_value=$(/usr/sbin/hddtemp -n $HDD_PATH 2>&1)
 
 # echo "disk_output_value: $disk_output_value" 
 
