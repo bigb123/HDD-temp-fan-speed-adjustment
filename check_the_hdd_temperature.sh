@@ -32,14 +32,14 @@ if [[ -z $(cd $MOUNT_POINT && /usr/sbin/fatrace -c -s 1) ]]; then
             echo $FAN_OFF > $FAN_PATH
         ;;
 
-        $FAN_MED
+        $FAN_MED)
             echo $FAN_SLOW > $FAN_PATH
         ;;
 
-        $FAN_FULL
+        $FAN_FULL)
             echo $FAN_MED > $FAN_PATH
         ;;
-        
+
     esac
 
     /usr/bin/sleep 2m
