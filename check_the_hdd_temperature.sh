@@ -21,17 +21,17 @@ case $disk_output_value in
     ;;
     
     # When the disk temperature is low - just keep the fan off
-    [0-4][0-9])
+    [0-4][0-4])
         echo $FAN_OFF > $FAN_PATH
     ;;
 
-    # If temp is above 50 - spin the fan a bit
-    5[0-4])
+    # If temp is above 45 - spin the fan a bit
+    4[5-9])
         echo $FAN_SLOW > $FAN_PATH
     ;;
 
     # Disk getting hot - spin the fan more
-    5[5-9])
+    5[0-4])
         echo $FAN_MED > $FAN_PATH
     ;;
 
