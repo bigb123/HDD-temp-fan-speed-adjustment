@@ -42,7 +42,8 @@ if [[ -z $(cd $MOUNT_POINT && /usr/sbin/fatrace -c -s 1) ]]; then
 
     esac
 
-    /usr/bin/sleep 2m
+    # Do not execute any more code in this run
+    exit 0
 fi
 
 disk_output_value=$(/usr/sbin/hddtemp -n $HDD_PATH 2>&1)
