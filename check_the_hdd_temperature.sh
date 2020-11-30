@@ -1,6 +1,12 @@
 #!/bin/bash
+#
+# Script to change the mainboard fan speed depends on the hard disk temperature
+#
+# Requirements:
+# - fatrace
+# - hddtemp
 
-FAN_PATH=/sys/devices/platform/gpio_fan/hwmon/hwmon0/fan1_target
+FAN_PATH="/sys/devices/platform/gpio_fan/hwmon/hwmon0/fan1_target"
 
 FAN_OFF=5000
 FAN_SLOW=3250
@@ -8,6 +14,31 @@ FAN_MED=1500
 FAN_FULL=0
 
 HDD_PATH="/dev/sdb"
+
+# The problem with hddtemp is that it generates activity on the hard 
+# disk every time it checks for the temperature. 
+#
+# To mitigate it we will check first if there's any files acivity 
+# on the hard disk. If not - we will slowly spin down the fans not
+# checking the temperature. (Risky but I have no other idea for now)
+
+MOUNT_POINT="/home/nasbackup/storage"
+
+if [[ -z $(cd $MOUNT_POINT && /usr/sbin/fatrace -c -s 1) ]]; then
+    case $(/usr/bin/cat $FAN_PATH) in
+        $FAN_SLOW)
+            echo $FAN_OFF > $FAN_PATH
+        ;;
+        $FAN_MED
+            echo $FAN_SLOW > $FAN_PATH
+        ;;
+        $FAN_FULL
+            echo $FAN_MED > $FAN_PATH
+        ;;
+    esac
+
+    /usr/bin/sleep 2m
+fi
 
 disk_output_value=$(/usr/sbin/hddtemp -n $HDD_PATH 2>&1)
 
