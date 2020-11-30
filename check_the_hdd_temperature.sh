@@ -25,6 +25,7 @@ HDD_PATH="/dev/sdb"
 MOUNT_POINT="/home/nasbackup/storage"
 
 if [[ -z $(cd $MOUNT_POINT && /usr/sbin/fatrace -c -s 1) ]]; then
+
     case $(/usr/bin/cat $FAN_PATH) in
         $FAN_SLOW)
             echo $FAN_OFF > $FAN_PATH
