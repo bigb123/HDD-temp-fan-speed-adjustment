@@ -27,8 +27,7 @@ case $disk_output_value in
 
     # If temp is above 50 - spin the fan a bit
     5[0-4])
-        echo "The temperature value is available"
-        # echo $FAN_SLOW > $FAN_PATH
+        echo $FAN_SLOW > $FAN_PATH
     ;;
 
     # Disk getting hot - spin the fan more
