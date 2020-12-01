@@ -62,7 +62,7 @@ case $disk_output_value in
         echo $FAN_OFF > $FAN_PATH
     ;;
 
-    # If temp is above 45 - spin the fan a bit
+    # If temp is above 30 - spin the fan a bit
     3[0-9])
         echo $FAN_SLOW > $FAN_PATH
     ;;
