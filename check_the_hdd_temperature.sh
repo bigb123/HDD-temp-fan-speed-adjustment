@@ -50,6 +50,9 @@ disk_output_value=$(/usr/sbin/hddtemp -n $HDD_PATH 2>&1)
 
 # echo "disk_output_value: $disk_output_value" 
 
+# The temperature tresholds of the hard disk are set according
+# to https://www.buildcomputers.net/hdd-temperature.html
+
 case $disk_output_value in
 
     # If the drive is stopped - just stop the fan as well
@@ -63,12 +66,12 @@ case $disk_output_value in
     ;;
 
     # If temp is above 30 - spin the fan a bit
-    3[0-9])
+    3[0-4])
         echo $FAN_SLOW > $FAN_PATH
     ;;
 
     # Disk getting hot - spin the fan more
-    4[0-9])
+    3[5-9])
         echo $FAN_MED > $FAN_PATH
     ;;
 
