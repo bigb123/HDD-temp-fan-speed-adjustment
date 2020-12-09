@@ -6,6 +6,10 @@
 # - fatrace - to check the files activity on the disk
 # - hddtemp - to check the temperature of the disk
 
+# It will be used to avoid running new instance of this script when the 
+# old one is still running.
+PIDFILE="/var/run/check_hdd_temperature.pid"
+
 FAN_PATH="/sys/devices/platform/gpio_fan/hwmon/hwmon0/fan1_target"
 
 FAN_OFF=5000
@@ -15,6 +19,16 @@ FAN_FULL=0
 
 HDD_PATH="/dev/sdb"
 MOUNT_POINT="/home/nasbackup/storage"
+
+if [ -f $PIDFILE ]; then
+    if [ $(ps -p $(cat $PIDFILE) &>/dev/null; echo $?) == 0 ]; then 
+        # This process is already running
+        exit 0
+    fi
+fi
+
+# Chreate new pid file so new instance of the same script will not appear.
+echo $$ > $PIDFILE
 
 # The problem with hddtemp is that it generates activity on the hard 
 # disk every time it checks for the temperature. 
@@ -85,4 +99,5 @@ else
     esac
 fi
 
-
+# Remove pid file so next process can start correctly
+rm $PIDFILE
